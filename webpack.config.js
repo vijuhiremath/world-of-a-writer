@@ -1,8 +1,7 @@
 var webpack=require('webpack');  
 var path=require("path");    
 var srcPath=path.resolve(__dirname,"client");    
-var distPath=path.resolve(__dirname,"public");  
-
+var distPath=path.resolve(__dirname,"public");   
 var config={  
     devtool:'source-map',  
     entry:[  
@@ -15,7 +14,7 @@ var config={
         filename:"bundle.js"    
     },    
     resolve: {   
-        extensions: [ '.js', '.jsx']    
+        extensions: [ '.js', '.jsx','.ts','.tsx']      
     },  
     module:{  
         rules:[  
@@ -23,20 +22,25 @@ var config={
                 test:/\.js?$/,    
                 exclude: /node_modules/,    
                 include: /client/,    
-                loader:"babel-loader",
+                loader:"babel-loader",           
             },  
             {    
                 test:/\.jsx?$/,    
                 exclude: /node_modules/,    
                 include: /client/,    
-                loader:"babel-loader",   
+                loader:"babel-loader",     
+            },  
+            {  
+                test: /\.tsx?$/,  
+                loader: "ts-loader",  
+                exclude: /node_modules/  
             }  
         ]  
-   },  
+    },  
     devServer:{  
         hot:true,  
         port:8000  
     }  
 }  
 
-module.exports=config;  
+module.exports=config; 
