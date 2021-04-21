@@ -1,26 +1,23 @@
 import express from "express";
 import path from "path";
-import { renderToString } from 'react-dom/server';
-import { App } from "./components/App";
+import * as http from "http";
+
 const app = express();
 const port = 8000; // default port to listen
 
-// // Configure Express to use EJS
-// app.set('views', __dirname + '/views');
-// app.set( "view engine", "html" );
+app.set("views", path.join(__dirname, "/"));
 
-// define a route handler for the default home page
-app.set( "views", path.join( __dirname, "views"));
-app.set("view engine","jade")
+app.use("/scripts", express.static(path.join(__dirname, "views/scripts")));
 
-app.get( "/", ( req, res ) => {
-    // render the index template
-    res.render('index');
-} );
+app.use("/", express.static(path.join(__dirname, "views/"), {
+    index: "index.html"
+}));
 
+// Set the port
+app.set("port", port);
 
-// start the express server
-app.listen( port, () => {
+// Start the webserver
+http.createServer(app).listen(port, () => {
     // tslint:disable-next-line:no-console
-    console.log( `server started at http://localhost:${ port }` );
-} );
+    console.log(`Server running on ${port}`);
+});
